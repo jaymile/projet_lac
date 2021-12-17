@@ -28,11 +28,6 @@ class Comment
     private $date_publication;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $auteur;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comment")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -68,18 +63,6 @@ class Comment
     public function setDatePublication(\DateTimeInterface $date_publication): self
     {
         $this->date_publication = $date_publication;
-
-        return $this;
-    }
-
-    public function getAuteur(): ?string
-    {
-        return $this->auteur;
-    }
-
-    public function setAuteur(string $auteur): self
-    {
-        $this->auteur = $auteur;
 
         return $this;
     }
