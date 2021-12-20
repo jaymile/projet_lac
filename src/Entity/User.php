@@ -74,9 +74,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $comment;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=UserLodging::class, inversedBy="user")
+     */
+    private $userLodging;
+
     public function __construct()
     {
         $this->comment = new ArrayCollection();
+        $this->userLodgings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -266,6 +272,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setCreatedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUserLodging(): ?UserLodging
+    {
+        return $this->userLodging;
+    }
+
+    public function setUserLodging(?UserLodging $userLodging): self
+    {
+        $this->userLodging = $userLodging;
 
         return $this;
     }
