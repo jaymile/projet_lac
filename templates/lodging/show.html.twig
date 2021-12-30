@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lodging{% endblock %}
+
+{% block body %}
+    <h1>Lodging</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ lodging.id }}</td>
+            </tr>
+            <tr>
+                <th>Hostel</th>
+                <td>{{ lodging.hostel }}</td>
+            </tr>
+            <tr>
+                <th>Airbnb</th>
+                <td>{{ lodging.airbnb }}</td>
+            </tr>
+            <tr>
+                <th>Guesthouse</th>
+                <td>{{ lodging.guesthouse }}</td>
+            </tr>
+            <tr>
+                <th>Other</th>
+                <td>{{ lodging.other }}</td>
+            </tr>
+            <tr>
+                <th>Hygiene</th>
+                <td>{{ lodging.Hygiene }}</td>
+            </tr>
+            <tr>
+                <th>Noise</th>
+                <td>{{ lodging.noise }}</td>
+            </tr>
+            <tr>
+                <th>Custumerbase</th>
+                <td>{{ lodging.custumerbase }}</td>
+            </tr>
+            <tr>
+                <th>Atmosphere</th>
+                <td>{{ lodging.atmosphere }}</td>
+            </tr>
+            <tr>
+                <th>Convenience</th>
+                <td>{{ lodging.convenience }}</td>
+            </tr>
+            <tr>
+                <th>Demonstration</th>
+                <td>{{ lodging.Demonstration }}</td>
+            </tr>
+            <tr>
+                <th>Partnership</th>
+                <td>{{ lodging.partnership }}</td>
+            </tr>
+            <tr>
+                <th>Hostbehavior</th>
+                <td>{{ lodging.hostbehavior }}</td>
+            </tr>
+            <tr>
+                <th>Coworkingspace</th>
+                <td>{{ lodging.coworkingspace }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ lodging.Description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('lodging_index') }}">back to list</a>
+
+    <a href="{{ path('lodging_edit', {'id': lodging.id}) }}">edit</a>
+
+    {{ include('lodging/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New RefCritere{% endblock %}
+
+{% block body %}
+    <h1>Create new RefCritere</h1>
+
+    {{ include('ref_critere/_form.html.twig') }}
+
+    <a href="{{ path('ref_critere_index') }}">back to list</a>
+{% endblock %}

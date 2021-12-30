@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CommentLodging{% endblock %}
+
+{% block body %}
+    <h1>CommentLodging</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ comment_lodging.id }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ comment_lodging.content }}</td>
+            </tr>
+            <tr>
+                <th>Publication_date</th>
+                <td>{{ comment_lodging.publicationDate ? comment_lodging.publicationDate|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('comment_lodging_index') }}">back to list</a>
+
+    <a href="{{ path('comment_lodging_edit', {'id': comment_lodging.id}) }}">edit</a>
+
+    {{ include('comment_lodging/_delete_form.html.twig') }}
+{% endblock %}

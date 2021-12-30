@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit RefCritere{% endblock %}
+
+{% block body %}
+    <h1>Edit RefCritere</h1>
+
+    {{ include('ref_critere/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('ref_critere_index') }}">back to list</a>
+
+    {{ include('ref_critere/_delete_form.html.twig') }}
+{% endblock %}

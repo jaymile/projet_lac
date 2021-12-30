@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CommentLodging index{% endblock %}
+
+{% block body %}
+    <h1>CommentLodging index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Content</th>
+                <th>Publication_date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for comment_lodging in comment_lodgings %}
+            <tr>
+                <td>{{ comment_lodging.id }}</td>
+                <td>{{ comment_lodging.content }}</td>
+                <td>{{ comment_lodging.publicationDate ? comment_lodging.publicationDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('comment_lodging_show', {'id': comment_lodging.id}) }}">show</a>
+                    <a href="{{ path('comment_lodging_edit', {'id': comment_lodging.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('comment_lodging_new') }}">Create new</a>
+{% endblock %}

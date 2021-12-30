@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lodging index{% endblock %}
+
+{% block body %}
+    <h1>Lodging index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Hostel</th>
+                <th>Airbnb</th>
+                <th>Guesthouse</th>
+                <th>Other</th>
+                <th>Hygiene</th>
+                <th>Noise</th>
+                <th>Custumerbase</th>
+                <th>Atmosphere</th>
+                <th>Convenience</th>
+                <th>Demonstration</th>
+                <th>Partnership</th>
+                <th>Hostbehavior</th>
+                <th>Coworkingspace</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for lodging in lodgings %}
+            <tr>
+                <td>{{ lodging.id }}</td>
+                <td>{{ lodging.hostel }}</td>
+                <td>{{ lodging.airbnb }}</td>
+                <td>{{ lodging.guesthouse }}</td>
+                <td>{{ lodging.other }}</td>
+                <td>{{ lodging.Hygiene }}</td>
+                <td>{{ lodging.noise }}</td>
+                <td>{{ lodging.custumerbase }}</td>
+                <td>{{ lodging.atmosphere }}</td>
+                <td>{{ lodging.convenience }}</td>
+                <td>{{ lodging.Demonstration }}</td>
+                <td>{{ lodging.partnership }}</td>
+                <td>{{ lodging.hostbehavior }}</td>
+                <td>{{ lodging.coworkingspace }}</td>
+                <td>{{ lodging.Description }}</td>
+                <td>
+                    <a href="{{ path('lodging_show', {'id': lodging.id}) }}">show</a>
+                    <a href="{{ path('lodging_edit', {'id': lodging.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="16">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('lodging_new') }}">Create new</a>
+{% endblock %}

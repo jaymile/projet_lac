@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RefCritere index{% endblock %}
+
+{% block body %}
+    <h1>RefCritere index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Ponderation</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ref_critere in ref_criteres %}
+            <tr>
+                <td>{{ ref_critere.id }}</td>
+                <td>{{ ref_critere.name }}</td>
+                <td>{{ ref_critere.ponderation }}</td>
+                <td>
+                    <a href="{{ path('ref_critere_show', {'id': ref_critere.id}) }}">show</a>
+                    <a href="{{ path('ref_critere_edit', {'id': ref_critere.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('ref_critere_new') }}">Create new</a>
+{% endblock %}
