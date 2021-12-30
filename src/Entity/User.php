@@ -79,10 +79,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $userLodging;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CommentLodging::class, mappedBy="creted_by")
+     */
+    private $commentLodgings;
+
     public function __construct()
     {
         $this->comment = new ArrayCollection();
         $this->userLodgings = new ArrayCollection();
+        $this->commentLodgings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -284,6 +290,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUserLodging(?UserLodging $userLodging): self
     {
         $this->userLodging = $userLodging;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentLodging[]
+     */
+    public function getCommentLodgings(): Collection
+    {
+        return $this->commentLodgings;
+    }
+
+    public function addCommentLodging(CommentLodging $commentLodging): self
+    {
+        if (!$this->commentLodgings->contains($commentLodging)) {
+            $this->commentLodgings[] = $commentLodging;
+            $commentLodging->setCretedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentLodging(CommentLodging $commentLodging): self
+    {
+        if ($this->commentLodgings->removeElement($commentLodging)) {
+            // set the owning side to null (unless already changed)
+            if ($commentLodging->getCretedBy() === $this) {
+                $commentLodging->setCretedBy(null);
+            }
+        }
 
         return $this;
     }

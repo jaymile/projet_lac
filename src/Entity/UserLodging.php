@@ -29,6 +29,11 @@ class UserLodging
      */
     private $lodging;
 
+    /**
+     * @ORM\OneToOne(targetEntity=RefCritere::class, mappedBy="UserLodging", cascade={"persist", "remove"})
+     */
+    private $critere_hygiene;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -96,6 +101,28 @@ class UserLodging
                 $lodging->setUserLodging(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCritereHygiene(): ?RefCritere
+    {
+        return $this->critere_hygiene;
+    }
+
+    public function setCritereHygiene(?RefCritere $critere_hygiene): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($critere_hygiene === null && $this->critere_hygiene !== null) {
+            $this->critere_hygiene->setUserLodging(null);
+        }
+
+        // set the owning side of the relation if necessary
+        //if ($critere_hygiene !== null && $critere_hygiene->getUserLodging() !== $this) {
+        //   $critere_hygiene->setUserLodging($this);
+        // }
+
+        $this->critere_hygiene = $critere_hygiene;
 
         return $this;
     }

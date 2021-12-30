@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LodgingRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -91,6 +93,16 @@ class Lodging
      * @ORM\ManyToOne(targetEntity=UserLodging::class, inversedBy="lodging")
      */
     private $userLodging;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CommentLodging::class, mappedBy="lodging")
+     */
+    private $commentLodgings;
+
+    public function __construct()
+    {
+        $this->commentLodgings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -273,6 +285,36 @@ class Lodging
     public function setUserLodging(?UserLodging $userLodging): self
     {
         $this->userLodging = $userLodging;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommentLodging[]
+     */
+    public function getCommentLodgings(): Collection
+    {
+        return $this->commentLodgings;
+    }
+
+    public function addCommentLodging(CommentLodging $commentLodging): self
+    {
+        if (!$this->commentLodgings->contains($commentLodging)) {
+            $this->commentLodgings[] = $commentLodging;
+            $commentLodging->setLodging($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentLodging(CommentLodging $commentLodging): self
+    {
+        if ($this->commentLodgings->removeElement($commentLodging)) {
+            // set the owning side to null (unless already changed)
+            if ($commentLodging->getLodging() === $this) {
+                $commentLodging->setLodging(null);
+            }
+        }
 
         return $this;
     }
