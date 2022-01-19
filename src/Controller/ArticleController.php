@@ -7,9 +7,11 @@ use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 #[Route('/article')]
 class ArticleController extends AbstractController
@@ -30,6 +32,25 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $pictureFiles = $form->get('picture')->getData(); //recuperer les images
+
+            // on fait une boucle sur les image car on peux en avoir plusieur
+            foreach ($pictureFiles as $pictureFile) {
+                //on genere un nom de fichier pour chaque image et ce de manierer aleatoir
+                $pictureName = md5(uniqid()) . '.' . $pictureFile->guessExtension();
+
+                //on copie le fichier ou image dans le dossier upload
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('pictures_directory'),
+                        $pictureName
+                    );
+                    //code...
+                } catch (FileException $e) {
+                    //throw $th;
+                }
+            }
+
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -71,7 +92,7 @@ class ArticleController extends AbstractController
     #[Route('/{id}', name: 'article_delete', methods: ['POST'])]
     public function delete(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->request->get('_token'))) {
             $entityManager->remove($article);
             $entityManager->flush();
         }
