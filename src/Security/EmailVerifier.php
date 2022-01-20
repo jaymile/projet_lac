@@ -38,7 +38,7 @@ class EmailVerifier
 
         $email->context($context);
 
-        $this->mailer->send($email);
+        dump(dump($this->mailer)->send($email));
     }
 
     /**
