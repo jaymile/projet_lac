@@ -84,11 +84,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $commentLodgings;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="created_by")
+     */
+    private $articles;
+
     public function __construct()
     {
         $this->comment = new ArrayCollection();
         $this->userLodgings = new ArrayCollection();
         $this->commentLodgings = new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -318,6 +324,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($commentLodging->getCretedBy() === $this) {
                 $commentLodging->setCretedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Article[]
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    public function addArticle(Article $article): self
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles[] = $article;
+            $article->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): self
+    {
+        if ($this->articles->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getCreatedBy() === $this) {
+                $article->setCreatedBy(null);
             }
         }
 

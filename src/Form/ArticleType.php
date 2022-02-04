@@ -19,7 +19,7 @@ class ArticleType extends AbstractType
                 'label' => false,
                 'multiple' => true,
                 'mapped' => false,
-                //'require' => false
+                'required' => false
             ]);
     }
 

@@ -4,14 +4,18 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Service\UploadService;
+use Doctrine\ORM\Mapping\Entity;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\VarDumper\Cloner\Data;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/article')]
 class ArticleController extends AbstractController
@@ -25,32 +29,16 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/new', name: 'article_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UploadService $uploader, SluggerInterface $slugger): Response
     {
         $article = new Article();
+        $article->setCreatedBy($this->getUser());
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $pictureFiles = $form->get('picture')->getData(); //recuperer les images
 
-            // on fait une boucle sur les image car on peux en avoir plusieur
-            foreach ($pictureFiles as $pictureFile) {
-                //on genere un nom de fichier pour chaque image et ce de manierer aleatoir
-                $pictureName = md5(uniqid()) . '.' . $pictureFile->guessExtension();
-
-                //on copie le fichier ou image dans le dossier upload
-                try {
-                    $pictureFile->move(
-                        $this->getParameter('pictures_directory'),
-                        $pictureName
-                    );
-                    //code...
-                } catch (FileException $e) {
-                    //throw $th;
-                }
-            }
-
+            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -72,12 +60,14 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'article_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Article $article, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Article $article, EntityManagerInterface $entityManager,  UploadService $uploader, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($article);
             $entityManager->flush();
 
             return $this->redirectToRoute('article_index', [], Response::HTTP_SEE_OTHER);
