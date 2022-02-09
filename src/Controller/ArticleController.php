@@ -7,12 +7,15 @@ use App\Form\ArticleType;
 use App\Service\UploadService;
 use Doctrine\ORM\Mapping\Entity;
 use App\Repository\ArticleRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -33,10 +36,17 @@ class ArticleController extends AbstractController
     {
         $article = new Article();
         $article->setCreatedBy($this->getUser());
+
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
+
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $date = new \DateTimeImmutable();
+            $article->setCreatedAt($date);
+            $article->setUpdatedAt($date);
+            $article->setCreatedBy($this->getUser());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($article);

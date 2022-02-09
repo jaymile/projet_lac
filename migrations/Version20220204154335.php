@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220122131756 extends AbstractMigration
+final class Version20220204154335 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,7 +20,7 @@ final class Version20220122131756 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE article (id INT AUTO_INCREMENT NOT NULL, created_by_id INT NOT NULL, name VARCHAR(255) NOT NULL, contents LONGTEXT NOT NULL, picture LONGTEXT NOT NULL, INDEX IDX_23A0E66B03A8386 (created_by_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE article (id INT AUTO_INCREMENT NOT NULL, created_by_id INT NOT NULL, name VARCHAR(255) NOT NULL, contents LONGTEXT NOT NULL, imagename LONGTEXT NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', updated_at DATETIME NOT NULL, INDEX IDX_23A0E66B03A8386 (created_by_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE comment (id INT AUTO_INCREMENT NOT NULL, created_by_id INT NOT NULL, article_id INT DEFAULT NULL, contenu LONGTEXT NOT NULL, date_publication DATE NOT NULL, INDEX IDX_9474526CB03A8386 (created_by_id), INDEX IDX_9474526C7294869C (article_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE comment_lodging (id INT AUTO_INCREMENT NOT NULL, lodging_id INT DEFAULT NULL, creted_by_id INT DEFAULT NULL, content LONGTEXT NOT NULL, publication_date DATE NOT NULL, INDEX IDX_7E467A3A87335AF1 (lodging_id), INDEX IDX_7E467A3A6E39655A (creted_by_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE coworkingspace (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, internet VARCHAR(255) NOT NULL, desk VARCHAR(255) NOT NULL, security VARCHAR(255) NOT NULL, rule VARCHAR(255) NOT NULL, price VARCHAR(255) NOT NULL, atmosphere VARCHAR(255) NOT NULL, hostbehavior VARCHAR(255) NOT NULL, picture LONGTEXT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

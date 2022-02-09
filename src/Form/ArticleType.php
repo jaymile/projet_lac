@@ -4,9 +4,10 @@ namespace App\Form;
 
 use App\Entity\Article;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 
 class ArticleType extends AbstractType
 {
@@ -15,12 +16,18 @@ class ArticleType extends AbstractType
         $builder
             ->add('name')
             ->add('contents')
-            ->add('picture', FileType::class, [
-                'label' => false,
-                'multiple' => true,
-                'mapped' => false,
-                'required' => false
-            ]);
+            ->add(
+                'imageFile',
+                VichImageType::class,
+                [
+                    'required' => false,
+                    //'allow_extra_fields' => true,
+                    'allow_delete' => true,
+                    'download_uri' => true,
+                    'image_uri' => true,
+                    'label' => 'Choisissez une image'
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
