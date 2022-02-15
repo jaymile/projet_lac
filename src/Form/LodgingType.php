@@ -12,6 +12,7 @@ class LodgingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('name')
             ->add('hostel')
             ->add('airbnb')
             ->add('guesthouse')
@@ -26,8 +27,7 @@ class LodgingType extends AbstractType
             ->add('hostbehavior')
             ->add('coworkingspace')
             ->add('Description')
-            ->add('userLodging')
-        ;
+            ->add('created_by');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

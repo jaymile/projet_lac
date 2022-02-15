@@ -19,6 +19,23 @@ class LodgingRepository extends ServiceEntityRepository
         parent::__construct($registry, Lodging::class);
     }
 
+    /**
+     * @return Lodging[] Returns an array of Lodging objects
+     * findlatest() pour recuperé les 4 dernier lodging créé
+     */
+
+    //pensez a créé une metdhode private si les condition se repete dans mes requettes sql
+    public function findlatest()
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.id != 0')
+            ->orderBy('l.id', 'ASC')
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult();
+    }
+
+
     // /**
     //  * @return Lodging[] Returns an array of Lodging objects
     //  */

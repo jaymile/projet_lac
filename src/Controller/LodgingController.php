@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Lodging;
 use App\Form\LodgingType;
 use App\Repository\LodgingRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/lodging')]
 class LodgingController extends AbstractController
@@ -30,6 +31,16 @@ class LodgingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $date = new DateTime();
+            dump($date);
+            $date->format('U = Y-m-d H:i:s') . "\n";
+            dump($date);
+            $lodging->setCreatedAt($date);
+            $lodging->setUpdatedAt($date);
+            $lodging->setCreatedBy($this->getUser()->getFirstname());
+            $lodging->setCreatedBy($this->getUser()->getLasstname());
+            $lodging->setCreatedBy($this->getUser());
+
             $entityManager->persist($lodging);
             $entityManager->flush();
 
@@ -71,7 +82,7 @@ class LodgingController extends AbstractController
     #[Route('/{id}', name: 'lodging_delete', methods: ['POST'])]
     public function delete(Request $request, Lodging $lodging, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$lodging->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $lodging->getId(), $request->request->get('_token'))) {
             $entityManager->remove($lodging);
             $entityManager->flush();
         }

@@ -1,14 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Lodging index{% endblock %}
+{% block title %}Hébergements{% endblock %}
 
 {% block body %}
-    <h1>Lodging index</h1>
+    <h1>Lodging index </h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Nom</th>
                 <th>Hostel</th>
                 <th>Airbnb</th>
                 <th>Guesthouse</th>
@@ -23,13 +24,15 @@
                 <th>Hostbehavior</th>
                 <th>Coworkingspace</th>
                 <th>Description</th>
-                <th>actions</th>
+                <th>auteur</th>
+                <th>date de creation</th>
             </tr>
         </thead>
         <tbody>
         {% for lodging in lodgings %}
             <tr>
                 <td>{{ lodging.id }}</td>
+                <td>{{ lodging.name }}</td>
                 <td>{{ lodging.hostel }}</td>
                 <td>{{ lodging.airbnb }}</td>
                 <td>{{ lodging.guesthouse }}</td>
@@ -44,6 +47,8 @@
                 <td>{{ lodging.hostbehavior }}</td>
                 <td>{{ lodging.coworkingspace }}</td>
                 <td>{{ lodging.Description }}</td>
+                <td>{{ lodging.CreatedBy.Firstname }} {{ lodging.CreatedBy.Lastname }}</td>
+                <td>{#{ lodging.CreatedAt }#}</td>
                 <td>
                     <a href="{{ path('lodging_show', {'id': lodging.id}) }}">show</a>
                     <a href="{{ path('lodging_edit', {'id': lodging.id}) }}">edit</a>

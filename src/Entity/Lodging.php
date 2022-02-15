@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\LodgingRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -90,18 +91,41 @@ class Lodging
     private $Description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=UserLodging::class, inversedBy="lodging")
-     */
-    private $userLodging;
-
-    /**
      * @ORM\OneToMany(targetEntity=CommentLodging::class, mappedBy="lodging")
      */
     private $commentLodgings;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="lodgings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $created_by;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
+
     public function __construct()
     {
+        $this->updated_at = new DateTime();
+        $this->created_at = new DateTime();
         $this->commentLodgings = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->LodgingRepository;
     }
 
     public function getId(): ?int
@@ -277,18 +301,6 @@ class Lodging
         return $this;
     }
 
-    public function getUserLodging(): ?UserLodging
-    {
-        return $this->userLodging;
-    }
-
-    public function setUserLodging(?UserLodging $userLodging): self
-    {
-        $this->userLodging = $userLodging;
-
-        return $this;
-    }
-
     /**
      * @return Collection|CommentLodging[]
      */
@@ -315,6 +327,54 @@ class Lodging
                 $commentLodging->setLodging(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->created_by;
+    }
+
+    public function setCreatedBy(?User $created_by): self
+    {
+        $this->created_by = $created_by;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTime $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTime $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

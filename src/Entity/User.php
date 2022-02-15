@@ -75,11 +75,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $comment;
 
     /**
-     * @ORM\ManyToOne(targetEntity=UserLodging::class, inversedBy="user")
-     */
-    private $userLodging;
-
-    /**
      * @ORM\OneToMany(targetEntity=CommentLodging::class, mappedBy="creted_by")
      */
     private $commentLodgings;
@@ -89,12 +84,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $articles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Lodging::class, mappedBy="created_by")
+     */
+    private $lodgings;
+
     public function __construct()
     {
         $this->comment = new ArrayCollection();
-        $this->userLodgings = new ArrayCollection();
         $this->commentLodgings = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->lodgings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -288,18 +288,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getUserLodging(): ?UserLodging
-    {
-        return $this->userLodging;
-    }
-
-    public function setUserLodging(?UserLodging $userLodging): self
-    {
-        $this->userLodging = $userLodging;
-
-        return $this;
-    }
-
     /**
      * @return Collection|CommentLodging[]
      */
@@ -354,6 +342,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($article->getCreatedBy() === $this) {
                 $article->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lodging[]
+     */
+    public function getLodgings(): Collection
+    {
+        return $this->lodgings;
+    }
+
+    public function addLodging(Lodging $lodging): self
+    {
+        if (!$this->lodgings->contains($lodging)) {
+            $this->lodgings[] = $lodging;
+            $lodging->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLodging(Lodging $lodging): self
+    {
+        if ($this->lodgings->removeElement($lodging)) {
+            // set the owning side to null (unless already changed)
+            if ($lodging->getCreatedBy() === $this) {
+                $lodging->setCreatedBy(null);
             }
         }
 
