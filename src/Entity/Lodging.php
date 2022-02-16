@@ -116,6 +116,11 @@ class Lodging
      */
     private $updated_at;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $selectlodging;
+
     public function __construct()
     {
 
@@ -379,6 +384,18 @@ class Lodging
     public function setUpdatedAt(\DateTime $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getSelectlodging(): ?string
+    {
+        return $this->selectlodging;
+    }
+
+    public function setSelectlodging(string $selectlodging): self
+    {
+        $this->selectlodging = $selectlodging;
 
         return $this;
     }
