@@ -48,7 +48,7 @@
                 <td>{{ lodging.coworkingspace }}</td>
                 <td>{{ lodging.Description }}</td>
                 <td>{{ lodging.CreatedBy.Firstname }} {{ lodging.CreatedBy.Lastname }}</td>
-                <td>{#{ lodging.CreatedAt }#}</td>
+                <td>{{ lodging.CreatedAt ? lodging.CreatedAt|date('d/m/Y') : '' }}</td>
                 <td>
                     <a href="{{ path('lodging_show', {'id': lodging.id}) }}">show</a>
                     <a href="{{ path('lodging_edit', {'id': lodging.id}) }}">edit</a>

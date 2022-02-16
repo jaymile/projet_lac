@@ -33,12 +33,8 @@ class LodgingController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $date = new DateTime();
             dump($date);
-            $date->format('U = Y-m-d H:i:s') . "\n";
-            dump($date);
             $lodging->setCreatedAt($date);
             $lodging->setUpdatedAt($date);
-            $lodging->setCreatedBy($this->getUser()->getFirstname());
-            $lodging->setCreatedBy($this->getUser()->getLasstname());
             $lodging->setCreatedBy($this->getUser());
 
             $entityManager->persist($lodging);

@@ -118,14 +118,18 @@ class Lodging
 
     public function __construct()
     {
-        $this->updated_at = new DateTime();
-        $this->created_at = new DateTime();
+
         $this->commentLodgings = new ArrayCollection();
+        $this->User = new ArrayCollection();
     }
 
     public function __toString()
     {
-        return $this->LodgingRepository;
+
+        $this->created_by->$this->getUser()->getFirstname();
+        $this->created_by->$this->getUser()->getLastname();
+        $this->LodgingRepository;
+        return (string) $this;
     }
 
     public function getId(): ?int

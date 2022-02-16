@@ -26,8 +26,7 @@ class LodgingType extends AbstractType
             ->add('partnership')
             ->add('hostbehavior')
             ->add('coworkingspace')
-            ->add('Description')
-            ->add('created_by');
+            ->add('Description');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
