@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Lodging
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -21,24 +22,14 @@ class Lodging
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    private $hostel;
+    private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    private $airbnb;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $guesthouse;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $other;
+    private $selectlodging;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -95,10 +86,6 @@ class Lodging
      */
     private $commentLodgings;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="lodgings")
@@ -119,7 +106,8 @@ class Lodging
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $selectlodging;
+    private $price;
+
 
     public function __construct()
     {
@@ -140,54 +128,6 @@ class Lodging
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getHostel(): ?string
-    {
-        return $this->hostel;
-    }
-
-    public function setHostel(?string $hostel): self
-    {
-        $this->hostel = $hostel;
-
-        return $this;
-    }
-
-    public function getAirbnb(): ?string
-    {
-        return $this->airbnb;
-    }
-
-    public function setAirbnb(?string $airbnb): self
-    {
-        $this->airbnb = $airbnb;
-
-        return $this;
-    }
-
-    public function getGuesthouse(): ?string
-    {
-        return $this->guesthouse;
-    }
-
-    public function setGuesthouse(?string $guesthouse): self
-    {
-        $this->guesthouse = $guesthouse;
-
-        return $this;
-    }
-
-    public function getOther(): ?string
-    {
-        return $this->other;
-    }
-
-    public function setOther(?string $other): self
-    {
-        $this->other = $other;
-
-        return $this;
     }
 
     public function getHygiene(): ?string
@@ -396,6 +336,18 @@ class Lodging
     public function setSelectlodging(string $selectlodging): self
     {
         $this->selectlodging = $selectlodging;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(string $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }
