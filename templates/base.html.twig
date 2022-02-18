@@ -26,7 +26,16 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href=" {{path('lodging_index')}} ">Hébergements</a>
         </li>
+        {% if not app.user %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                        </li>
       </ul>
+                    {% endif %}
     </div>
   </div>
 </nav>
