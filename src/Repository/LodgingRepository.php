@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Lodging;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -34,7 +35,6 @@ class LodgingRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 
     // /**
     //  * @return Lodging[] Returns an array of Lodging objects

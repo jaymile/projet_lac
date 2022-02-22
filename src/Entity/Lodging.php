@@ -7,6 +7,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Cocur\Slugify\Slugify;
 
 /**
  * @ORM\Entity(repositoryClass=LodgingRepository::class)
@@ -123,6 +124,11 @@ class Lodging
         $this->created_by->$this->getUser()->getLastname();
         $this->LodgingRepository;
         return (string) $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $slugify = (new Slugify())->slugify($this->name);
     }
 
     public function getId(): ?int

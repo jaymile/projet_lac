@@ -13,26 +13,24 @@
 <div class="container">
     <h2 class="text-center"> Mes derniers hébergements </h2>
     <div class="row flex">
-    
-        <div class="col-3">
             {% for lodging in lodgings %}
+        <div class="col-3">
                <div class="card">
-                   <img class="card-img-top" data-src="holder.js/100x180/?text=Image cap" alt="Card image cap">
                    <div class="card-body">
-                   <h4 class="card-title">
-                       <a href="{{ path('lodging_show', {'id': lodging.id}) }}">{{lodging.name}}</a>
+                        <h4 class="card-title">
+                             <a href="{{ path('lodging_show', {'id': lodging.id, slug: lodging.slug}) }}">{{lodging.name}}</a>
                        </h4>
                        <h5 class="card-title">
-                       {{lodging.selectlodging}}
+                            {{lodging.selectlodging}}
                        </h5>
                        <p class="card-text">
-                       {{lodging.Description}}
+                            {{lodging.Description}}
                        </p>
                    </div>
 
                </div>
-            {% endfor %}
         </div>
+            {% endfor %}
     </div>
 </div>
 {% endblock %}

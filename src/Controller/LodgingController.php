@@ -7,6 +7,7 @@ use App\Entity\Lodging;
 use App\Form\LodgingType;
 use App\Repository\LodgingRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,9 +16,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/lodging')]
 class LodgingController extends AbstractController
 {
-    #[Route('/', name: 'lodging_index', methods: ['GET'])]
-    public function index(LodgingRepository $lodgingRepository): Response
+    #[Route('/hebergement', name: 'lodging_index', methods: ['GET'])]
+    public function index(LodgingRepository $lodgingRepository, Request $request): Response
     {
+
         return $this->render('lodging/index.html.twig', [
             'lodgings' => $lodgingRepository->findAll(),
         ]);
