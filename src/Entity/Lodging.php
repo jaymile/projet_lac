@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=LodgingRepository::class)
@@ -109,6 +110,13 @@ class Lodging
      */
     private $price;
 
+    /**
+     * gedmo va generer tout seule les sulgs ici sur le paramttre "name"
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
+
 
     public function __construct()
     {
@@ -126,9 +134,10 @@ class Lodging
         return (string) $this;
     }
 
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
-        return $slugify = (new Slugify())->slugify($this->name);
+        return $this->slug;
+        //return $slugify = (new Slugify())->slugify($this->name);
     }
 
     public function getId(): ?int

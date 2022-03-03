@@ -49,7 +49,7 @@ class RegistrationController extends AbstractController
                 $user,
                 (new TemplatedEmail())
                     ->from(new Address('testdev.jay@gmail.com', 'jaybot'))
-                    ->to(dump($user->getEmail()))
+                    ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             ));

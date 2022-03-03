@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
@@ -53,20 +54,29 @@ class Article
     private $comment;
 
     /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
     private $created_by;
 
     /**
+     * Gedmo\timestampable(on="create")
      * @ORM\Column(type="datetime_immutable")
      */
     private $created_at;
 
     /**
+     * Gedmo\timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
     private $updated_at;
+
 
 
     public function __construct()
@@ -204,5 +214,10 @@ class Article
         $this->updated_at = $updated_at;
 
         return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
     }
 }

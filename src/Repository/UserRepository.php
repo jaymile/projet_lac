@@ -36,9 +36,26 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
+    /**
+     * je fais cette function @profile ca jai un bug qui fait planté mon site quand mon user.id == zero ou null
+     * @return User[] Returns an array of User objects
+     */
+
+    public function profile($value): ?User
+    {
+        if (!'id: app.user.id') {
+            return 'babababababbababa';
+        } else {
+            # code...
+
+            return $this->createQueryBuilder('u')
+                ->andWhere('u.exampleField = :val')
+                ->setParameter('val', $value)
+                ->getQuery()
+                ->getOneOrNullResult();
+        }
+    }
+
     /*
     public function findByExampleField($value)
     {
