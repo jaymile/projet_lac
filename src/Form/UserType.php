@@ -2,27 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\Article;
+use App\Entity\User;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-
-class ArticleType extends AbstractType
+class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class, [
-                'label' => 'Titre:',
+            // ->add('roles')
 
+            ->add('lastname', TextType::class, [
+                'label' => 'Nom :',
+                'attr' => ['placeholder' => 'Saisissez votre nom']
             ])
-            ->add('contents', TextareaType::class, [
-                'label' => 'Contenue:',
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom :',
+                'attr' => ['placeholder' => 'Saisissez votre prénom']
             ])
             ->add(
                 'image',
@@ -38,7 +38,7 @@ class ArticleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Article::class,
+            'data_class' => User::class,
         ]);
     }
 }

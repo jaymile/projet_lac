@@ -12,8 +12,8 @@
                 <td>{{ article.id }}</td>
             </tr>
             <tr>
-                <th>Name</th>
-                <td>{{ article.name }}</td>
+                <th>Titre</th>
+                <td>{{ article.title }}</td>
             </tr>
             <tr>
                 <th>Contents</th>
@@ -21,7 +21,18 @@
             </tr>
             <tr>
                 <th>image</th>
-                <td><img src="{{vich_uploader_asset(article, 'imageFile')}}" alt="card-img-top" style="width: 30Opx; height: 300px; "></td>
+
+            </tr>
+
+            <tr>
+                <th>date de publication</th>
+                <td>{{ article.createdAT ? article.createdAT |date('Y-m-d H:i:s') : ''  }}</td>
+
+            </tr>
+
+            <tr>
+                <th>arcticle mise a jours le :</th>
+                <td>{{ article.updatedAT ? article.updatedAT |date('Y-m-d H:i:s') : ''  }}</td>
 
             </tr>
         </tbody>

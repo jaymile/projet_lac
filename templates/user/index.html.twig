@@ -16,7 +16,7 @@
                 <th>Password</th>
                 <th>Sexe</th>
                 <th>OriginalCountry</th>
-                <th>Picture</th>
+                <th>photo</th>
                 <th>IsVerified</th>
                 <th>actions</th>
             </tr>
@@ -32,7 +32,7 @@
                 <td>{{ user.password }}</td>
                 <td>{{ user.sexe }}</td>
                 <td>{{ user.originalCountry }}</td>
-                <td>{{ user.picture }}</td>
+                <td>{{ user.imageFile }}</td>
                 <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
                 <td>
                     <a href="{{ path('user_show', {'id': user.id}) }}">show</a>

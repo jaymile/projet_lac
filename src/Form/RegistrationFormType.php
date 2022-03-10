@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -20,11 +21,16 @@ class RegistrationFormType extends AbstractType
     {
         $builder
 
-            // picture tres important a jouter 
-            ->add('picture', TextType::class, [
-                'label' => 'image :',
-                'attr' => ['placeholder' => 'Saisissez votre image: a faire version teste']
-            ])
+
+            ->add(
+                'image',
+                FileType::class,
+                [
+                    'multiple' => true,
+                    'mapped' => false,
+                    'required' => false,
+                ]
+            )
 
             ->add('lastname', TextType::class, [
                 'label' => 'Nom :',

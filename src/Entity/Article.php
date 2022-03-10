@@ -25,18 +25,9 @@ class Article
     private $id;
 
     /**
-     * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     * 
-     * @Vich\UploadableField(mapping="article_images", fileNameProperty="imagename")
-     * 
-     * @var File|null
-     */
-    private $imageFile;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $title;
 
     /**
      * @ORM\Column(type="text")
@@ -44,17 +35,12 @@ class Article
     private $contents;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $imagename;
-
-    /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="article")
      */
     private $comment;
 
     /**
-     * @Gedmo\Slug(fields={"name"})
+     * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
@@ -66,22 +52,32 @@ class Article
     private $created_by;
 
     /**
+     *  @var \DateTime $created_at
+     * 
      * Gedmo\timestampable(on="create")
      * @ORM\Column(type="datetime_immutable")
      */
     private $created_at;
 
     /**
+     * @var \DateTime $updated_at
+     * 
      * Gedmo\timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
     private $updated_at;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="article")
+     */
+    private $images;
 
 
 
     public function __construct()
     {
         $this->comment = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,14 +85,14 @@ class Article
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getTitle(): ?string
     {
-        return $this->name;
+        return $this->title;
     }
 
-    public function setName(string $name): self
+    public function setTitle(string $title): self
     {
-        $this->name = $name;
+        $this->title = $title;
 
         return $this;
     }
@@ -110,43 +106,6 @@ class Article
     {
         $this->contents = $contents;
 
-        return $this;
-    }
-
-    public function getImagename(): ?string
-    {
-        return $this->imagename;
-    }
-
-    public function setImagename(string $imagename): self
-    {
-        $this->imagename = $imagename;
-
-        return $this;
-    }
-
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
-
-    public function setImageFile(File $imageFile): self
-    {
-        $this->imageFile = $imageFile;
-
-        if (null !== $imageFile) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
-        }
-        /*
-        $this->imageFile = $imageFile;
-        // Only change the updated af if the file is really uploaded to avoid database updates.
-        // This is needed when the file should be set when loading the entity.
-        if ($this->imageFile instanceof UploadedFile) {
-            $this->updated_at = new \DateTime('now');
-        }
-        */
         return $this;
     }
 
@@ -192,16 +151,9 @@ class Article
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface
@@ -209,15 +161,38 @@ class Article
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    public function getSlug(): ?string
     {
-        $this->updated_at = $updated_at;
+        return $this->slug;
+    }
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setArticle($this);
+        }
 
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function removeImage(Image $image): self
     {
-        return $this->slug;
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getArticle() === $this) {
+                $image->setArticle(null);
+            }
+        }
+
+        return $this;
     }
 }

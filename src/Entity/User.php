@@ -9,10 +9,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Entity\File;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @Vich\Uploadable
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -27,6 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -60,11 +66,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $originalCountry;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $picture;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
@@ -89,18 +90,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $lodgings;
 
+    /**
+     * @var \DateTime $created_at
+     * 
+     * Gedmo\timestampable(on="create")
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $created_at;
+
+    /**
+     * @var \DateTime $updated_at
+     * 
+     *  Gedmo\timestampable(on="update")
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $updated_at;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="user")
+     */
+    private $images;
+
     public function __construct()
     {
         $this->comment = new ArrayCollection();
         $this->commentLodgings = new ArrayCollection();
         $this->articles = new ArrayCollection();
         $this->lodgings = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
     }
+
 
     public function getEmail(): ?string
     {
@@ -234,17 +258,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPicture(): ?string
-    {
-        return $this->picture;
-    }
-
-    public function setPicture(string $picture): self
-    {
-        $this->picture = $picture;
-
-        return $this;
-    }
 
     public function isVerified(): bool
     {
@@ -372,6 +385,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($lodging->getCreatedBy() === $this) {
                 $lodging->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getUser() === $this) {
+                $image->setUser(null);
             }
         }
 

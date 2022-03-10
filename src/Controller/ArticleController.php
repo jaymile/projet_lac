@@ -43,11 +43,9 @@ class ArticleController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $date = new DateTime('2000-01-01');
-            $date = new \DateTimeImmutable();
+            $date = new \DateTime();
             echo $date->format('Y-m-d H:i:sP') . "\n";
-            $article->setCreatedAt($date);
-            $article->setUpdatedAt($date);
+            //$article->setUpdatedAt($date);
             $article->setCreatedBy($this->getUser());
 
             $entityManager = $this->getDoctrine()->getManager();

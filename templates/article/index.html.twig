@@ -11,18 +11,18 @@
             <tr>
                 <th>Id</th>
                 <th>image</th>
-                <th>Name</th>
+                <th>titre</th>
                 <th>Contents</th>
-                <th>actions</th>
+                <th>date de creation</th>
             </tr>
         </thead>
         <tbody>
             {% for article in articles %}
             <tr>
                 <td>{{ article.id }}</td>
-                <td><img src="{{vich_uploader_asset(article, 'imageFile')}}" alt="card-img-top" style="width: 15Opx; height: 150px; "></td>
-                <td>{{ article.name }}</td>
+                <td>{{ article.title }}</td>
                 <td>{{ article.contents }}</td>
+                <td>{{ article.createdAT ? article.createdAT |date('d/m/Y') : ''  }}</td>
                 <td>
                     <a href="{{ path('article_show', {'id': article.id}) }}">show</a>
                     <a href="{{ path('article_edit', {'id': article.id}) }}">edit</a>

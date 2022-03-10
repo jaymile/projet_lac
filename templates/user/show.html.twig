@@ -9,8 +9,8 @@
         <tbody>
             
             <tr>
-                <th>Picture</th>
-                <td>{{ user.picture }}</td>
+                <th>photo</th>
+                <td>{{ user.imageFile }}</td>
             </tr>
             <tr>
                 <th>Roles</th>
@@ -43,7 +43,7 @@
 
     <div>
     <h4> ARTICLE</h4>
-   <a href="{{ path('article_show', {'id': article.id}) }}">{{article.name}}</a>
+   <a href="{{ path('article_show', {'id': article.id}) }}">{{article.title}}</a>
     </div>
 
     {% endfor %}
