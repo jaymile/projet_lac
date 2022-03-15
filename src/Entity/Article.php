@@ -52,17 +52,11 @@ class Article
     private $created_by;
 
     /**
-     *  @var \DateTime $created_at
-     * 
-     * Gedmo\timestampable(on="create")
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime")
      */
     private $created_at;
 
     /**
-     * @var \DateTime $updated_at
-     * 
-     * Gedmo\timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
     private $updated_at;
@@ -156,10 +150,23 @@ class Article
         return $this->created_at;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function setCreatedAt(\DateTime $created_at): self
+    {
+        $this->created_at = $created_at;
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updated_at;
     }
+
+    public function setUpdatedAt(\DateTime $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+        return $this;
+    }
+
 
     public function getSlug(): ?string
     {

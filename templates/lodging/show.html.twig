@@ -59,6 +59,16 @@
                 <th>Description</th>
                 <td>{{ lodging.Description }}</td>
             </tr>
+
+            <tr>
+                <th>date de publication</th>
+                <td>{{ lodging.createdAT ? lodging.createdAT |date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+
+            <tr>
+                <th>publication mise a jours le :</th>
+                <td>{{ lodging.updatedAT ? lodging.updatedAT |date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
         </tbody>
     </table>
 

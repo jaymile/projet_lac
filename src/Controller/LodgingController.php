@@ -34,7 +34,6 @@ class LodgingController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $date = new DateTime();
-            dump($date);
             $lodging->setCreatedAt($date);
             $lodging->setUpdatedAt($date);
             $lodging->setCreatedBy($this->getUser());
