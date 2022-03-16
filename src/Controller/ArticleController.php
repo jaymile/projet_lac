@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Image;
 use App\Form\ArticleType;
 use App\Service\UploadService;
 use Doctrine\ORM\Mapping\Entity;
@@ -43,6 +44,26 @@ class ArticleController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //on recupere les images transmises
+            $images = $form->get('images')->getData();
+            //on boucle sur les images car on peut en avoir plusieur
+            foreach ($images as $image) {
+                //on genere un nouveau nom de fichier aleatoir
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+
+                //on copie le fichier dans le dossier imagres en utilisant la methode 'move()'
+                $image->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                );
+
+                // on stock le nom de limage dans la bse de donné
+                $img = new Image();
+                $img->setName($fichier);
+                $article->addImage($img);
+            }
+
+
             $date = new \DateTime();
             $article->setCreatedAt($date);
             $article->setUpdatedAt($date);
@@ -76,6 +97,25 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //on recupere les images transmises
+            $images = $form->get('images')->getData();
+            //on boucle sur les images car on peut en avoir plusieur
+            foreach ($images as $image) {
+                //on genere un nouveau nom de fichier aleatoir
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+
+                //on copie le fichier dans le dossier imagres en utilisant la methode 'move()'
+                $image->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                );
+
+                // on stock le nom de limage dans la bse de donné
+                $img = new Image();
+                $img->setName($fichier);
+                $article->addImage($img);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($article);
             $entityManager->flush();
@@ -98,5 +138,28 @@ class ArticleController extends AbstractController
         }
 
         return $this->redirectToRoute('article_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{supprime/image{id}}', name: 'article_delete_image', methods: ['DELETE'])]
+    public function deleteImage(Image $image, Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        //on verifie si le token est valide
+        if ($this->isCsrfTokenValid('delete' . $image->getId(), $data['_token'])) {
+            //on recupere le nom du fichier
+            $nom = $image->getName();
+            //et on supprime le fichier
+            unlink($this->getParameter('images_directory') . '/' . $nom);
+            //on supprime lentré de la base de donné
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($image);
+            $entityManager->flush();
+
+            //on repond un success en json
+            return new JsonResponse(['success' => 1]);
+        } else {
+            return new JsonResponse(['error' => 'Token Invalide'], 400);
+        }
     }
 }

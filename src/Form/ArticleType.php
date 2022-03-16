@@ -26,7 +26,7 @@ class ArticleType extends AbstractType
                 'label' => 'Contenue:',
             ])
             ->add(
-                'image',
+                'images',
                 FileType::class,
                 [
                     'multiple' => true,

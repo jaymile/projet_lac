@@ -118,7 +118,7 @@ class Lodging
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="lodging")
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="lodging",  orphanRemoval=true, cascade={"persist"})
      */
     private $images;
 

@@ -21,6 +21,7 @@
                 <th>Partnership</th>
                 <th>Hostbehavior</th>
                 <th>Coworkingspace</th>
+                <th>images</th>
                 <th>Description</th>
                 <th>auteur</th>
                 <th>date de creation</th>
@@ -42,6 +43,13 @@
                 <td>{{ lodging.partnership }}</td>
                 <td>{{ lodging.hostbehavior }}</td>
                 <td>{{ lodging.coworkingspace }}</td>
+                <td>
+                {% for image in lodging.images %}
+            <div>
+                <img src="/images/{{image.name}}" alt="Image"  width="150">
+            </div>
+        {% endfor %}
+                </td>
                 <td>{{ lodging.Description }}</td>
                 <td>{{ lodging.CreatedBy.Firstname }} {{ lodging.CreatedBy.Lastname }}</td>
                 <td>{{ lodging.CreatedAt ? lodging.CreatedAt|date('d/m/Y') : '' }}</td>

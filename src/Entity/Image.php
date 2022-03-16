@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ImageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
@@ -36,6 +37,19 @@ class Image
      * @ORM\ManyToOne(targetEntity=lodging::class, inversedBy="images")
      */
     private $lodging;
+
+
+    public function __construct()
+    {
+        //  $this->article = new ArrayCollection();
+        //  $this->lodging = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        $this->article = new ArrayCollection();
+        $this->lodging = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {

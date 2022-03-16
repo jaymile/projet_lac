@@ -1,5 +1,22 @@
 
 {{ form_start(form) }}
     {{ form_widget(form) }}
+
+     {# verifié si la route est "lodging_edit" et on affiche les images#}
+    {% if app.request.attributes.get('_route') == 'lodging_edit'%}
+        <h2>Images</h2>
+        {% for image in lodging.images %}
+            <div>
+                <img src="{{asset('/images/' ~ image.name)}}" alt="Image" width="150">
+                
+                {# On ajoute un lien permettant de supprimer une image (sera géré en Ajax) #}
+                <a href="{{path('lodging_delete_image', {id:image.id})}}" 
+                data-delete data-token="{{csrf_token('delete' ~ image.id) }}">
+                supprimer
+                </a>
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <button class="btn btn-primary" >{{ button_label|default('Sauvegarder') }}</button>
 {{ form_end(form) }}

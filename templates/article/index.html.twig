@@ -10,8 +10,8 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>image</th>
                 <th>titre</th>
+                <th>image</th>
                 <th>Contents</th>
                 <th>date de creation</th>
             </tr>
@@ -21,6 +21,13 @@
             <tr>
                 <td>{{ article.id }}</td>
                 <td>{{ article.title }}</td>
+                <td>
+                {% for image in article.images %}
+            <div>
+                <img src="/images/{{image.name}}" alt="Image"  width="150">
+            </div>
+        {% endfor %}
+                </td>
                 <td>{{ article.contents }}</td>
                 <td>{{ article.createdAT ? article.createdAT |date('d/m/Y') : ''  }}</td>
                 <td>

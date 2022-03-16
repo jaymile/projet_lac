@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class LodgingType extends AbstractType
 {
@@ -76,7 +77,17 @@ class LodgingType extends AbstractType
             ])
             ->add('Description', TextareaType::class, [
                 'label' => 'Description:',
-            ]);
+            ])
+
+            ->add(
+                'images',
+                FileType::class,
+                [
+                    'multiple' => true,
+                    'mapped' => false,
+                    'required' => false,
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

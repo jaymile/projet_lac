@@ -62,7 +62,7 @@ class Article
     private $updated_at;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="article")
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="article", orphanRemoval=true, cascade={"persist"})
      */
     private $images;
 
@@ -71,6 +71,11 @@ class Article
     public function __construct()
     {
         $this->comment = new ArrayCollection();
+        $this->images = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
         $this->images = new ArrayCollection();
     }
 
