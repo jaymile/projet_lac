@@ -19,6 +19,22 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    /**
+     * @return Article[] Returns an array of article objects
+     * findlatest() pour recuperé les 4 dernier lodging créé
+     */
+
+    //pensez a créé une metdhode private si les condition se repete dans mes requettes sql
+    public function findlast()
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.id != 0')
+            ->orderBy('l.id', 'ASC')
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Article[] Returns an array of Article objects
     //  */

@@ -30,7 +30,7 @@ class LodgingRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('l')
             ->andWhere('l.id != 0')
-            ->orderBy('l.id', 'ASC')
+            ->orderBy('l.id', 'DESC')
             ->setMaxResults(4)
             ->getQuery()
             ->getResult();

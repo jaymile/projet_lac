@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Comment;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,7 +18,10 @@ class CommentType extends AbstractType
             ->add('date_publication')
             ->add('created_by')
             ->add('article')
-        ;
+            ->add('parentid', HiddenType::class, [
+                'mapped' => false
+            ])
+            ->add('envoyer', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

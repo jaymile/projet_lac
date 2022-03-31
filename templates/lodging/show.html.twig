@@ -8,8 +8,12 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ lodging.id }}</td>
+                <th></th>
+                <td>   {% for image in lodging.images %}
+            <div>
+                <img src="/images/{{image.name}}" alt="Image"  width="300">
+            </div>
+        {% endfor %}</td>
             </tr>
             <tr>
                 <th>Nom</th>
@@ -58,6 +62,11 @@
             <tr>
                 <th>Description</th>
                 <td>{{ lodging.Description }}</td>
+            </tr>
+
+             <tr>
+                <th>publier par :</th>
+                <td>{{ lodging.CreatedBy.Firstname }} {{ lodging.CreatedBy.Lastname }}</td>
             </tr>
 
             <tr>
