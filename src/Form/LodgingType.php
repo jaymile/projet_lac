@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Lodging;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Choice;
@@ -75,7 +76,7 @@ class LodgingType extends AbstractType
             ->add('coworkingspace', TextType::class, [
                 'label' => 'Espace travaille:',
             ])
-            ->add('Description', TextareaType::class, [
+            ->add('Description', CKEditorType::class, [
                 'label' => 'Description:',
             ])
 
