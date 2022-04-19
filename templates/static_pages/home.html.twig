@@ -31,7 +31,7 @@
                             {{lodging.selectlodging}}
                        </h5>
                        <p class="card-text">
-                            {{lodging.Description}}
+                            {{lodging.Description|raw}}
                        </p>
                        <p>{{ lodging.UpdatedAt ? lodging.UpdatedAt|date('d/m/Y') : '' }}</p>
                    </div>

@@ -77,6 +77,8 @@ class Article
     public function __toString()
     {
         $this->images = new ArrayCollection();
+        $this->created_by->$this->getUser()->getFirstname();
+        $this->created_by->$this->getUser()->getLastname();
     }
 
     public function getId(): ?int

@@ -60,6 +60,12 @@ class Comment
         $this->replies = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        $this->created_by->$this->getUser();
+        //$this->created_by->$this->getUser()->getLastname();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

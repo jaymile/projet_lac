@@ -28,7 +28,7 @@
             </div>
         {% endfor %}
                 </td>
-                <td>{{ article.contents }}</td>
+                <td>{{ article.contents|raw }}</td>
                 <td>{{ article.createdAT ? article.createdAT |date('d/m/Y') : ''  }}</td>
                 <td>
                     <a href="{{ path('article_show', {'id': article.id}) }}">show</a>

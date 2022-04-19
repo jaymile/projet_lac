@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Comment;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,7 +15,9 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('contenu')
+            ->add('contenu', CKEditorType::class, [
+                'label' => "Votre Commentaire"
+            ])
             ->add('date_publication')
             ->add('created_by')
             ->add('article')

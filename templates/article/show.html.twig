@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <th>Contents</th>
-                <td>{{ article.contents }}</td>
+                <td>{{ article.contents|raw }}</td>
             </tr>
             <tr>
                 <th>image</th>
@@ -37,6 +37,18 @@
             </tr>
         </tbody>
     </table>
+
+    <div>
+        <div>
+        <h2>
+        Liste des commentaires
+        </h2>
+         </div>
+        <div>
+        Ajouter des commentaires 
+        {{form(form)}}
+        </div>
+    </div>    
 
     <a href="{{ path('article_index') }}">retour a la liste</a>
 

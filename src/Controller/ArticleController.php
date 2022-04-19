@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Entity\Image;
 use App\Form\ArticleType;
+use App\Form\CommentType;
 use App\Service\UploadService;
 use Doctrine\ORM\Mapping\Entity;
 use App\Repository\ArticleRepository;
@@ -83,10 +85,36 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/{id}', name: 'article_show', methods: ['GET'])]
-    public function show(Article $article): Response
+    public function show(Article $article, Request $request, EntityManagerInterface $entityManager): Response
     {
+        /*
+        //commentaire
+        //on cree le commentaire (on instanci l'objet)
+        $comment = new Comment;
+
+        //on genere le formulaire
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        //traitement du formulaire
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setCreatedBy($this->getUser());
+
+            $date = new \DateTime();
+            $comment->setDatePublication($date);
+            $comment->setArticle($article);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+            $this->addFlash('message', 'votre commentaire a été bien envoyé');
+            return $this->redirectToRoute('article_show', ['slug' => $article->getSlug()]);
+        }
+*/
         return $this->render('article/show.html.twig', [
             'article' => $article,
+
         ]);
     }
 
