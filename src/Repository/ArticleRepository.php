@@ -28,8 +28,8 @@ class ArticleRepository extends ServiceEntityRepository
     public function findlast()
     {
         return $this->createQueryBuilder('l')
-            ->andWhere('l.id != 0')
-            ->orderBy('l.id', 'ASC')
+            ->andWhere('a.id != 0')
+            ->orderBy('a.id', 'ASC')
             ->setMaxResults(4)
             ->getQuery()
             ->getResult();

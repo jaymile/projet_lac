@@ -43,7 +43,7 @@ class Comment
     /**
      * @ORM\Column(type="boolean")
      */
-    private $active;
+    private $active = false;
 
     /**
      * @ORM\ManyToOne(targetEntity=Comment::class, inversedBy="replies")

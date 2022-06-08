@@ -18,9 +18,6 @@ class CommentType extends AbstractType
             ->add('contenu', CKEditorType::class, [
                 'label' => "Votre Commentaire"
             ])
-            ->add('date_publication')
-            ->add('created_by')
-            ->add('article')
             ->add('parentid', HiddenType::class, [
                 'mapped' => false
             ])

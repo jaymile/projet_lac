@@ -2,18 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
+use DateTimeImmutable;
 use App\Entity\Article;
 use App\Entity\Comment;
-use App\Entity\Image;
 use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Service\UploadService;
 use Doctrine\ORM\Mapping\Entity;
 use App\Repository\ArticleRepository;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Date;
@@ -23,14 +25,19 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-#[Route('/article')]
+
+/**
+ * @Route("/article")
+ */
 class ArticleController extends AbstractController
 {
-    #[Route('/', name: 'article_index', methods: ['GET'])]
+    /**
+     * @Route("/", name="article_index", methods={"GET"})
+     */
     public function index(ArticleRepository $articleRepository): Response
     {
         return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
+            'articles' => $articleRepository->findAll(), //modifier et mettre en premier les derniere creation. findby(['created_at' => 'DESC']),
         ]);
     }
 
@@ -81,41 +88,82 @@ class ArticleController extends AbstractController
         return $this->renderForm('article/new.html.twig', [
             'article' => $article,
             'form' => $form,
+
         ]);
     }
 
-    #[Route('/{id}', name: 'article_show', methods: ['GET'])]
-    public function show(Article $article, Request $request, EntityManagerInterface $entityManager): Response
+
+    /**
+     * @Route("/{id}", name="article_show", methods={"GET","POST"})
+     */
+    public function show(Article $article, Request $request,  MailerInterface $mailer, EntityManagerInterface $entityManager): Response
     {
-        /*
         //commentaire
-        //on cree le commentaire (on instanci l'objet)
+
+        //on créé le commentaire "vierge"
         $comment = new Comment;
 
         //on genere le formulaire
-        $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
+        $commentForm = $this->createForm(CommentType::class, $comment);
+
+        $commentForm->handleRequest($request);
 
         //traitement du formulaire
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $comment->setDatePublication(new \DateTime());
             $comment->setCreatedBy($this->getUser());
-
-            $date = new \DateTime();
-            $comment->setDatePublication($date);
             $comment->setArticle($article);
+
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
 
             $this->addFlash('message', 'votre commentaire a été bien envoyé');
-            return $this->redirectToRoute('article_show', ['slug' => $article->getSlug()]);
+            // return $this->redirectToRoute('article_show', ['slug' => $article->getSlug()]);
         }
-*/
+
+        /*
+
+
+        $date = new \DateTime();
+        $contenu = "";
+        if (!is_null($request->request->get('contenu'))) {
+            $contenu = $request->request->get('contenu');
+        }
+
+        $comment->setDatePublication($date)
+            ->setCreatedBy($this->getUser())
+            ->setArticle($article)
+            ->setContenu($contenu);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($comment);
+        $em->flush();
+
+        $this->addFlash('message', 'votre commentaire a été bien envoyé');
+        //return $this->redirectToRoute('article_show', ['slug' => $article->getSlug()]);
+
+            $mailer->send(
+                (new TemplatedEmail())
+                    ->from('LAC <testdev.jay@gmail.com>')
+                    ->to($article->getCreatedBy()->getEmail())
+                    ->text('Un utilisateur a commenté votre article "' . $article->getTitle() . '"')
+            );
+            return $this->render('article/show.html.twig', [
+                'groups' => ['to-serialize'],
+                'commentForm' => $commentForm->createView()
+                ]);
+            } else {
+                return new Response;
+                */
+        //  return $this->redirectToRoute('article_show', [], Response::HTTP_SEE_OTHER);
         return $this->render('article/show.html.twig', [
             'article' => $article,
-
+            'commentForm' => $commentForm->createView(),
         ]);
+        // }
+        return new Response;
     }
 
     #[Route('/{id}/edit', name: 'article_edit', methods: ['GET', 'POST'])]

@@ -21,7 +21,13 @@
             </tr>
             <tr>
                 <th>image</th>
-
+             <td>
+                {% for image in article.images %}
+            <div>
+                <img src="/images/{{image.name}}" alt="Image"  width="150">
+            </div>
+        {% endfor %}
+                </td>
             </tr>
 
             <tr>
@@ -38,17 +44,22 @@
         </tbody>
     </table>
 
-    <div>
-        <div>
-        <h2>
-        Liste des commentaires
-        </h2>
-         </div>
-        <div>
-        Ajouter des commentaires 
-        {{form(form)}}
+    <div class="commentaire">
+
+        <div class="ajouterCommentaire">
+            <h2> ajouter un nouveau commentaire</h2>
+            {{ form(commentForm) }}
         </div>
-    </div>    
+    
+    </div>
+
+    <div class="afficherCommentaire">
+        <h2> listes des commentaires</h2>
+        {% for comment in article.comment %}
+            <div>{{comment.contenu|raw}} </div>
+            <p>publié par: {{comment.createdBy.Firstname}} {{comment.createdBy.lastname}} le {{comment.datePublication|date("d/m/y H:i")}}</p>
+        {% endfor %}
+    </div>
 
     <a href="{{ path('article_index') }}">retour a la liste</a>
 
